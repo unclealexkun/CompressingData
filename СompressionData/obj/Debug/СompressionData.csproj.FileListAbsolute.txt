@@ -11,3 +11,6 @@ D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\Сompress
 D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\СompressionData.csproj.GenerateResource.Cache
 D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\СompressionData.exe
 D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\СompressionData.pdb
+D:\Downloads\Project\VS\C#\CompressingData\СompressionData\bin\Debug\СompressionData.exe.config
+D:\Downloads\Project\VS\C#\CompressingData\СompressionData\obj\Debug\СompressionData.exe
+D:\Downloads\Project\VS\C#\CompressingData\СompressionData\obj\Debug\СompressionData.pdb

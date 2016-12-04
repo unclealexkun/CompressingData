@@ -1,0 +1,13 @@
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\bin\Debug\СompressionData.exe.config
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\bin\Debug\СompressionData.exe
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\bin\Debug\СompressionData.pdb
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\СompressionData.csprojResolveAssemblyReference.cache
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\MainWindow.g.cs
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\App.g.cs
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\СompressionData_MarkupCompile.cache
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\MainWindow.baml
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\СompressionData.g.resources
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\СompressionData.Properties.Resources.resources
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\СompressionData.csproj.GenerateResource.Cache
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\СompressionData.exe
+D:\Downloads\Project\VS\C#\СompressionData\СompressionData\obj\Debug\СompressionData.pdb

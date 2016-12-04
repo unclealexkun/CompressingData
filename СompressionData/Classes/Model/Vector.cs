@@ -4,13 +4,13 @@
     {
         public float x;
         public float y;
-        Vector(float x, float y)
+        public Vector(float x, float y)
         {
             this.x = x;
             this.y = y;
         }
 
-        Vector()
+        public Vector()
         {
             x = 0;
             y = 0;

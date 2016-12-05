@@ -152,6 +152,11 @@ namespace СompressionData.Classes
 
                     int currentLevel = i;
 
+                    if (i == numberBit)
+                    {
+                        
+                    }
+
                 }
             }
         }

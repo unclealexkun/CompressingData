@@ -217,8 +217,9 @@ namespace СompressionData.Classes
                             {
                                 break;
                             }
-
                         }
+
+
                     }
 
                 }

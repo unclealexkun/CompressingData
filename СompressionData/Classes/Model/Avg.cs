@@ -9,13 +9,13 @@ namespace СompressionData.Classes.Model
 
         public List<Vector> elements = new List<Vector>();
 
-        Avg(float x, float y)
+        public Avg(float x, float y)
         {
             this.x = x;
             this.y = y;
         }
 
-        Avg()
+        public Avg()
         {
             x = 0;
             y = 0;

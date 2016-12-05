@@ -154,7 +154,71 @@ namespace СompressionData.Classes
 
                     if (i == numberBit)
                     {
-                        
+                        // Оптимизация
+                        for (;;)
+                        {
+                            levels.Add(new Level());
+                            currentLevel++;
+
+                            // Добавление в уровень средних значений
+                            for (int l = 0; l < levels[currentLevel - 1].avgs.Count; l++)
+                            {
+                                var summ = new Avg();
+                                for (int b = 0; b < levels[currentLevel - 1].avgs[l].elements.Count; b++)
+                                {
+                                    summ.x += levels[currentLevel - 1].avgs[l].elements[b].x;
+                                    summ.y += levels[currentLevel - 1].avgs[l].elements[b].y;
+                                }
+                                levels[currentLevel].avgs.Add(new Avg((float) Math.Round(summ.x / levels[currentLevel - 1].avgs[l].elements.Count), (float) Math.Round(summ.y / levels[currentLevel - 1].avgs[l].elements.Count)));
+                            }
+
+                            // Получение векторов
+                            float changee = 0;
+                            int bestError = 0;
+                            for (int b = 0; b < picture.Count; b++)
+                            {
+                                for (int l = 0; l < levels[currentLevel].avgs.Count; l++)
+                                {
+                                    if (l == 0)
+                                    {
+                                        changee = (picture[b].x - levels[currentLevel].avgs[l].x) * (picture[b].x - levels[currentLevel].avgs[l].x)
+                                                + (picture[b].y - levels[currentLevel].avgs[l].y) * (picture[b].y - levels[currentLevel].avgs[l].y);
+                                        bestError = 0;
+                                    }
+                                    else
+                                    {
+                                        if (changee > ((picture[b].x - levels[currentLevel].avgs[l].x) * (picture[b].x - levels[currentLevel].avgs[l].x)
+                                                      + (picture[b].y - levels[currentLevel].avgs[l].y) * (picture[b].y - levels[currentLevel].avgs[l].y)))
+                                        {
+
+                                            changee = ((picture[b].x - levels[currentLevel].avgs[l].x) * (picture[b].x - levels[currentLevel].avgs[l].x)
+                                                      + (picture[b].y - levels[currentLevel].avgs[l].y) * (picture[b].y - levels[currentLevel].avgs[l].y));
+                                            bestError = l;
+                                        }
+                                    }
+                                }
+                                levels[currentLevel].avgs[bestError].elements.Add(picture[b]);
+                            }
+
+                            // Проверка выполнения алгоритма
+                            bool same = true;
+                            for (int u = 0; u < levels[currentLevel].avgs.Count; u++)
+                            {
+                                if (levels[currentLevel].avgs[u].x == levels[currentLevel - 1].avgs[u].x && levels[currentLevel].avgs[u].y == levels[currentLevel - 1].avgs[u].y)
+                                {
+                                }
+                                else
+                                {
+                                    same = false;
+                                }
+                            }
+
+                            if (same)
+                            {
+                                break;
+                            }
+
+                        }
                     }
 
                 }

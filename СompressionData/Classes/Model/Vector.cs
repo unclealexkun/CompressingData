@@ -2,18 +2,18 @@
 {
     public class Vector
     {
-        public float x;
-        public float y;
+        public float X;
+        public float Y;
         public Vector(float x, float y)
         {
-            this.x = x;
-            this.y = y;
+            X = x;
+            Y = y;
         }
 
         public Vector()
         {
-            x = 0;
-            y = 0;
+            X = 0;
+            Y = 0;
         }
     }
 }

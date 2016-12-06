@@ -5,7 +5,7 @@ namespace СompressionData.Interfaces
 {
     public interface ICompression
     {
-        byte[] Compressing(Bitmap data, Method method);
-        Bitmap Decompressing(byte[] data, Method method);
+        void Compressing(Bitmap data, Method method);
+        Bitmap Decompressing(Method method);
     }
 }

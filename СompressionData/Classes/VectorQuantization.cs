@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.IO;
 using СompressionData.Classes.Model;
 
 namespace СompressionData.Classes
@@ -55,12 +56,12 @@ namespace СompressionData.Classes
 
                         if (!xDone)
                         {
-                            picture[vectorsCounter].x = r;
+                            picture[vectorsCounter].X = r;
                             xDone = true;
                         }
                         else if (!yDone)
                              {
-                                 picture[vectorsCounter].y = r;
+                                 picture[vectorsCounter].Y = r;
                                  xDone = false;
                                  yDone = false;
                                  picture.Add(new Vector());
@@ -75,22 +76,22 @@ namespace СompressionData.Classes
 
                 foreach (Vector pic in picture)
                 {
-                    sum.x += pic.x;
-                    sum.y += pic.y;
+                    sum.X += pic.X;
+                    sum.Y += pic.Y;
                 }
 
                 var firstAvg = new Vector
                 {
-                    x = (float) Math.Round(sum.x/picture.Count),
-                    y = (float) Math.Round(sum.y/picture.Count)
+                    X = (float) Math.Round(sum.X/picture.Count),
+                    Y = (float) Math.Round(sum.Y/picture.Count)
                 };
 
                 var levels = new List<Level>
                 {
                     new Level()
                 };
-                levels[0].avgs.Add(new Avg(firstAvg.x, firstAvg.y));
-                levels[0].avgs[0].elements = picture;
+                levels[0].avgs.Add(new Avg(firstAvg.X, firstAvg.Y));
+                levels[0].avgs[0].Elements = picture;
 
                 for (int i = 1; i < numberBit; i++)
                 {
@@ -105,47 +106,47 @@ namespace СompressionData.Classes
                         var leftElements = new List<Vector>();
                         var rightElements = new List<Vector>();
 
-                        left.x = levels[i - 1].avgs[j].x - 1;
-                        left.y = levels[i - 1].avgs[j].y - 1;
-                        right.x = levels[i - 1].avgs[j].x + 1;
-                        right.y = levels[i - 1].avgs[j].y + 1;
+                        left.X = levels[i - 1].avgs[j].X - 1;
+                        left.Y = levels[i - 1].avgs[j].Y - 1;
+                        right.X = levels[i - 1].avgs[j].X + 1;
+                        right.Y = levels[i - 1].avgs[j].Y + 1;
 
                         var sum1 = new Vector();
                         var sum2 = new Vector();
-                        for (int k = 0; k < levels[i - 1].avgs[j].elements.Count; k++)
+                        for (int k = 0; k < levels[i - 1].avgs[j].Elements.Count; k++)
                         {
                             float change1 = 0, change2 = 0;
-                            change1 = (levels[i - 1].avgs[j].elements[k].x - left.x) * (levels[i - 1].avgs[j].elements[k].x - left.x)
-                                    + (levels[i - 1].avgs[j].elements[k].y - left.y) * (levels[i - 1].avgs[j].elements[k].y - left.y);
-                            change2 = (levels[i - 1].avgs[j].elements[k].x - right.x) * (levels[i - 1].avgs[j].elements[k].x - right.x)
-                                    + (levels[i - 1].avgs[j].elements[k].y - right.y) * (levels[i - 1].avgs[j].elements[k].y - right.y);
+                            change1 = (levels[i - 1].avgs[j].Elements[k].X - left.X) * (levels[i - 1].avgs[j].Elements[k].X - left.X)
+                                    + (levels[i - 1].avgs[j].Elements[k].Y - left.Y) * (levels[i - 1].avgs[j].Elements[k].Y - left.Y);
+                            change2 = (levels[i - 1].avgs[j].Elements[k].X - right.X) * (levels[i - 1].avgs[j].Elements[k].X - right.X)
+                                    + (levels[i - 1].avgs[j].Elements[k].Y - right.Y) * (levels[i - 1].avgs[j].Elements[k].Y - right.Y);
 
                             if (change1 >= change2)
                             {
-                                rightElements.Add(levels[i - 1].avgs[j].elements[k]);
+                                rightElements.Add(levels[i - 1].avgs[j].Elements[k]);
                             }
-                            else leftElements.Add(levels[i - 1].avgs[j].elements[k]);
+                            else leftElements.Add(levels[i - 1].avgs[j].Elements[k]);
                         }
 
                         for (int z = 0; z < leftElements.Count; z++)
                         {
-                            sum1.x += leftElements[z].x;
-                            sum1.y += leftElements[z].y;
+                            sum1.X += leftElements[z].X;
+                            sum1.Y += leftElements[z].Y;
                         }
 
                         for (int z = 0; z < rightElements.Count; z++)
                         {
-                            sum2.x += rightElements[z].x;
-                            sum2.y += rightElements[z].y;
+                            sum2.X += rightElements[z].X;
+                            sum2.Y += rightElements[z].Y;
                         }
 
-                        levels[i].avgs.Add(new Avg((float) Math.Round(sum1.x / leftElements.Count), (float) Math.Round(sum1.y / leftElements.Count)));
-                        levels[i].avgs[c].elements = leftElements;
+                        levels[i].avgs.Add(new Avg((float) Math.Round(sum1.X / leftElements.Count), (float) Math.Round(sum1.Y / leftElements.Count)));
+                        levels[i].avgs[c].Elements = leftElements;
 
                         c++;
 
-                        levels[i].avgs.Add(new Avg((float) Math.Round(sum2.x / rightElements.Count), (float) Math.Round(sum2.y / rightElements.Count)));
-                        levels[i].avgs[c].elements = rightElements;
+                        levels[i].avgs.Add(new Avg((float) Math.Round(sum2.X / rightElements.Count), (float) Math.Round(sum2.Y / rightElements.Count)));
+                        levels[i].avgs[c].Elements = rightElements;
 
                         c++;
                     }
@@ -164,47 +165,47 @@ namespace СompressionData.Classes
                             for (int l = 0; l < levels[currentLevel - 1].avgs.Count; l++)
                             {
                                 var summ = new Avg();
-                                for (int b = 0; b < levels[currentLevel - 1].avgs[l].elements.Count; b++)
+                                for (int b = 0; b < levels[currentLevel - 1].avgs[l].Elements.Count; b++)
                                 {
-                                    summ.x += levels[currentLevel - 1].avgs[l].elements[b].x;
-                                    summ.y += levels[currentLevel - 1].avgs[l].elements[b].y;
+                                    summ.X += levels[currentLevel - 1].avgs[l].Elements[b].X;
+                                    summ.Y += levels[currentLevel - 1].avgs[l].Elements[b].Y;
                                 }
-                                levels[currentLevel].avgs.Add(new Avg((float) Math.Round(summ.x / levels[currentLevel - 1].avgs[l].elements.Count), (float) Math.Round(summ.y / levels[currentLevel - 1].avgs[l].elements.Count)));
+                                levels[currentLevel].avgs.Add(new Avg((float) Math.Round(summ.X / levels[currentLevel - 1].avgs[l].Elements.Count), (float) Math.Round(summ.Y / levels[currentLevel - 1].avgs[l].Elements.Count)));
                             }
 
                             // Получение векторов
                             float changee = 0;
-                            int bestError = 0;
-                            for (int b = 0; b < picture.Count; b++)
+                            var bestError = 0;
+                            for (var b = 0; b < picture.Count; b++)
                             {
-                                for (int l = 0; l < levels[currentLevel].avgs.Count; l++)
+                                for (var l = 0; l < levels[currentLevel].avgs.Count; l++)
                                 {
                                     if (l == 0)
                                     {
-                                        changee = (picture[b].x - levels[currentLevel].avgs[l].x) * (picture[b].x - levels[currentLevel].avgs[l].x)
-                                                + (picture[b].y - levels[currentLevel].avgs[l].y) * (picture[b].y - levels[currentLevel].avgs[l].y);
+                                        changee = (picture[b].X - levels[currentLevel].avgs[l].X) * (picture[b].X - levels[currentLevel].avgs[l].X)
+                                                + (picture[b].Y - levels[currentLevel].avgs[l].Y) * (picture[b].Y - levels[currentLevel].avgs[l].Y);
                                         bestError = 0;
                                     }
                                     else
                                     {
-                                        if (changee > ((picture[b].x - levels[currentLevel].avgs[l].x) * (picture[b].x - levels[currentLevel].avgs[l].x)
-                                                      + (picture[b].y - levels[currentLevel].avgs[l].y) * (picture[b].y - levels[currentLevel].avgs[l].y)))
+                                        if (changee > ((picture[b].X - levels[currentLevel].avgs[l].X) * (picture[b].X - levels[currentLevel].avgs[l].X)
+                                                      + (picture[b].Y - levels[currentLevel].avgs[l].Y) * (picture[b].Y - levels[currentLevel].avgs[l].Y)))
                                         {
 
-                                            changee = ((picture[b].x - levels[currentLevel].avgs[l].x) * (picture[b].x - levels[currentLevel].avgs[l].x)
-                                                      + (picture[b].y - levels[currentLevel].avgs[l].y) * (picture[b].y - levels[currentLevel].avgs[l].y));
+                                            changee = ((picture[b].X - levels[currentLevel].avgs[l].X) * (picture[b].X - levels[currentLevel].avgs[l].X)
+                                                      + (picture[b].Y - levels[currentLevel].avgs[l].Y) * (picture[b].Y - levels[currentLevel].avgs[l].Y));
                                             bestError = l;
                                         }
                                     }
                                 }
-                                levels[currentLevel].avgs[bestError].elements.Add(picture[b]);
+                                levels[currentLevel].avgs[bestError].Elements.Add(picture[b]);
                             }
 
                             // Проверка выполнения алгоритма
-                            bool same = true;
-                            for (int u = 0; u < levels[currentLevel].avgs.Count; u++)
+                            var same = true;
+                            for (var u = 0; u < levels[currentLevel].avgs.Count; u++)
                             {
-                                if (levels[currentLevel].avgs[u].x == levels[currentLevel - 1].avgs[u].x && levels[currentLevel].avgs[u].y == levels[currentLevel - 1].avgs[u].y)
+                                if (levels[currentLevel].avgs[u].X == levels[currentLevel - 1].avgs[u].X && levels[currentLevel].avgs[u].Y == levels[currentLevel - 1].avgs[u].Y)
                                 {
                                 }
                                 else
@@ -219,11 +220,85 @@ namespace СompressionData.Classes
                             }
                         }
 
+                        using (var writter = new StreamWriter(Directory.GetCurrentDirectory() + @"\\dictionary.txt"))
+                        {
+                            writter.WriteLine(_width + " " + _height);
+                            for (int g = 0; g < levels[levels.Count - 1].avgs.Count; g++)
+                            {
+                                writter.WriteLine((int)levels[levels.Count - 1].avgs[g].X + " " + (int)levels[levels.Count - 1].avgs[g].Y);
+                            }
+                        }
 
+                        using (var writter = new StreamWriter(Directory.GetCurrentDirectory() + @"\\codeBook.txt"))
+                        {
+                            for (var m = 0; m < picture.Count; m++)
+                            {
+                                for (var g = 0; g < levels[levels.Count - 1].avgs.Count; g++)
+                                {
+                                    if (levels[levels.Count - 1].avgs[(int)g].Elements.Contains(picture[m]))
+                                    {
+                                        writter.Write(g + " ");
+                                    }
+
+                                }
+                            }
+                        }
                     }
-
                 }
             }
+        }
+
+        public Bitmap GetImage()
+        {
+            try
+            {
+                string dictionary;
+                using (var reader = new StreamReader(Directory.GetCurrentDirectory() + @"\\dictionary.txt"))
+                {
+                    dictionary = reader.ReadToEnd();
+                }
+
+                var elementDictionary = dictionary.Split(new []{"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+                var parametrImage = elementDictionary[0].Split(new []{' '}, StringSplitOptions.RemoveEmptyEntries);
+
+                var width = System.Convert.ToInt32(parametrImage[0]);
+                var height = System.Convert.ToInt32(parametrImage[1]);
+
+                string codeBook;
+                using (var reader = new StreamReader(Directory.GetCurrentDirectory() + @"\\codeBook.txt"))
+                {
+                    codeBook = reader.ReadToEnd();
+                }
+
+                var pixels = new int[height,width];
+                var scannerCodeBook = new Scanner(codeBook);
+
+                for (var x = 0; x < width; x++)
+                {
+                    for (var y = 0; y < height; y += 2)
+                    {
+                        int vec = scannerCodeBook.NextInt();
+                        var vectorCode = elementDictionary[vec + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        pixels[y,x] = Int32.Parse(vectorCode[0]);
+                        pixels[y + 1,x] = Int32.Parse(vectorCode[1]);
+                    }
+                }
+
+                var image = new Bitmap(width,height);
+
+                for (int x = 0; x < width; x++)
+                    for (int y = 0; y < height; y++)
+                    {
+                        image.SetPixel(x,y, Color.FromArgb((pixels[y,x] << 16) | (pixels[y,x] << 8) | (pixels[y,x])));
+                    }
+
+                return image;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(@"Ошибка при рассшифровке файла: {0}",ex);
+                return null;
+            }        
         }
     }
 }

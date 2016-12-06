@@ -68,6 +68,7 @@
     <Compile Include="Classes\Model\Avg.cs" />
     <Compile Include="Classes\Model\Level.cs" />
     <Compile Include="Classes\Model\Vector.cs" />
+    <Compile Include="Classes\Scanner.cs" />
     <Compile Include="Classes\VectorQuantization.cs" />
     <Compile Include="Enumes\Method.cs" />
     <Compile Include="Interfaces\ICompression.cs" />

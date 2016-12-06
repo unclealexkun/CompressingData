@@ -6,29 +6,30 @@ namespace СompressionData.Classes
 {
     public class Compression:ICompression
     {
-        public byte[] Compressing(Bitmap data, Method method)
+        public Bitmap Decompressing(Method method)
         {
             switch (method)
             {
                 case Method.VectorQuantization:
                     {
-                        return null;
+                        var comp = new VectorQuantization(null);
+                        return comp.GetImage();
                     }
                     break;
                 default: return null;
             }
         }
 
-        public Bitmap Decompressing(byte[] data, Method method) 
+        public void Compressing(Bitmap data, Method method)
         {
             switch (method)
             {
                 case Method.VectorQuantization:
                     {
-                        return null;
+                        var comp = new VectorQuantization(data);
+                        comp.Compressing(4);
                     }
                     break;
-                default: return null;
             }
         }
     }

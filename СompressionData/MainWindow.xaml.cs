@@ -59,7 +59,7 @@ namespace СompressionData
             };
             if (saveFileDialog.ShowDialog() == Form.DialogResult.OK)
             {
-                SaveToBmp(imageCompress,saveFileDialog.FileName);
+                SaveToBmp(saveFileDialog.FileName);
             }
         }
 
@@ -92,29 +92,23 @@ namespace СompressionData
             }
         }
 
-        void SaveToBmp(FrameworkElement visual, string fileName)
+        void SaveToBmp(string fileName)
         {
             var encoder = new BmpBitmapEncoder();
-            SaveUsingEncoder(visual, fileName, encoder);
+            SaveUsingEncoder(fileName, encoder);
         }
 
-        void SaveToPng(FrameworkElement visual, string fileName)
+        void SaveToPng(string fileName)
         {
             var encoder = new PngBitmapEncoder();
-            SaveUsingEncoder(visual, fileName, encoder);
+            SaveUsingEncoder(fileName, encoder);
         }
 
-        void SaveUsingEncoder(FrameworkElement visual, string fileName, BitmapEncoder encoder)
+        void SaveUsingEncoder(string fileName, BitmapEncoder encoder)
         {
-            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Default);
-            bitmap.Render(visual);
-            BitmapFrame frame = BitmapFrame.Create(bitmap);
-            encoder.Frames.Add(frame);
-
-            using (var stream = File.Create(fileName))
-            {
+            encoder.Frames.Add(BitmapFrame.Create((BitmapSource)imageCompress.Source));
+            using (FileStream stream = new FileStream(fileName, FileMode.Create))
                 encoder.Save(stream);
-            }
         }
     }
 }

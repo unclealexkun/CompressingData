@@ -27,8 +27,10 @@ namespace СompressionData
         private void bCompression_Click(object sender, RoutedEventArgs e)
         {
             var compressor = new Compression();
-            compressor.Compressing(BitmapToImageSource(imageOriginal.Source));
-            imageCompress.Source = BitmapToImageSource(compressor.Decompressing(Method.VectorQuantization));
+            var bitmap = new Bitmap(_path);
+
+            compressor.Compressing(bitmap, Method.VectorQuantization);
+            imageCompress.Source = BitmapToImageSource(compressor.GetImage(Method.VectorQuantization));
         }
 
         private void bOpen_Click(object sender, RoutedEventArgs e)
@@ -53,12 +55,11 @@ namespace СompressionData
             var saveFileDialog = new Form.SaveFileDialog
             {
                 InitialDirectory = _directory,
-                Filter = @"BMP files(*.bmp) |*.bmp"
+                Filter = @"PNG files(*.png) |*.png"
             };
             if (saveFileDialog.ShowDialog() == Form.DialogResult.OK)
             {
-                var image = BitmapImage2Bitmap(imageCompress.Source);
-                
+                SaveToPng(imageCompress,saveFileDialog.FileName);
             }
         }
 
@@ -88,6 +89,31 @@ namespace СompressionData
                 var bitmap = new Bitmap(outStream);
 
                 return new Bitmap(bitmap);
+            }
+        }
+
+        void SaveToBmp(FrameworkElement visual, string fileName)
+        {
+            var encoder = new BmpBitmapEncoder();
+            SaveUsingEncoder(visual, fileName, encoder);
+        }
+
+        void SaveToPng(FrameworkElement visual, string fileName)
+        {
+            var encoder = new PngBitmapEncoder();
+            SaveUsingEncoder(visual, fileName, encoder);
+        }
+
+        void SaveUsingEncoder(FrameworkElement visual, string fileName, BitmapEncoder encoder)
+        {
+            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(visual);
+            BitmapFrame frame = BitmapFrame.Create(bitmap);
+            encoder.Frames.Add(frame);
+
+            using (var stream = File.Create(fileName))
+            {
+                encoder.Save(stream);
             }
         }
     }

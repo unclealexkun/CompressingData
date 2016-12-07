@@ -6,7 +6,7 @@ namespace СompressionData.Classes
 {
     public class Compression:ICompression
     {
-        public Bitmap Decompressing(Method method)
+        public Bitmap GetImage(Method method)
         {
             switch (method)
             {
@@ -14,6 +14,19 @@ namespace СompressionData.Classes
                     {
                         var comp = new VectorQuantization(null);
                         return comp.GetImage();
+                    }
+                    break;
+                default: return null;
+            }
+        }
+
+        public Bitmap Decompressing(Method method)
+        {
+            switch (method)
+            {
+                case Method.VectorQuantization:
+                    {
+                        return GetImage(method);
                     }
                     break;
                 default: return null;

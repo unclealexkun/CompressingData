@@ -153,7 +153,7 @@ namespace СompressionData.Classes
 
                     int currentLevel = i;
 
-                    if (i == numberBit)
+                    if (i == numberBit-1)
                     {
                         // Оптимизация
                         for (;;)
@@ -275,7 +275,7 @@ namespace СompressionData.Classes
 
                 for (var x = 0; x < width; x++)
                 {
-                    for (var y = 0; y < height; y += 2)
+                    for (var y = 0; y < height-1; y += 2)
                     {
                         int vec = scannerCodeBook.NextInt();
                         var vectorCode = elementDictionary[vec + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -296,7 +296,7 @@ namespace СompressionData.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine(@"Ошибка при рассшифровке файла: {0}",ex);
+                Console.WriteLine("Ошибка при рассшифровке файла: {0}",ex);
                 return null;
             }        
         }

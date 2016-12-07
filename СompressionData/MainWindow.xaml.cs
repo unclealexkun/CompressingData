@@ -55,17 +55,17 @@ namespace СompressionData
             var saveFileDialog = new Form.SaveFileDialog
             {
                 InitialDirectory = _directory,
-                Filter = @"PNG files(*.png) |*.png"
+                Filter = @"BMP files(*.bmp) |*.bmp"
             };
             if (saveFileDialog.ShowDialog() == Form.DialogResult.OK)
             {
-                SaveToPng(imageCompress,saveFileDialog.FileName);
+                SaveToBmp(imageCompress,saveFileDialog.FileName);
             }
         }
 
         private BitmapImage BitmapToImageSource(Bitmap bitmap)
         {
-            using (MemoryStream memory = new MemoryStream())
+            using (var memory = new MemoryStream())
             {
                 bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
                 memory.Position = 0;
@@ -106,7 +106,7 @@ namespace СompressionData
 
         void SaveUsingEncoder(FrameworkElement visual, string fileName, BitmapEncoder encoder)
         {
-            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            RenderTargetBitmap bitmap = new RenderTargetBitmap((int)visual.ActualWidth, (int)visual.ActualHeight, 96, 96, PixelFormats.Default);
             bitmap.Render(visual);
             BitmapFrame frame = BitmapFrame.Create(bitmap);
             encoder.Frames.Add(frame);

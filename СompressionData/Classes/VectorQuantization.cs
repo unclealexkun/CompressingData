@@ -115,7 +115,7 @@ namespace СompressionData.Classes
                         var sum2 = new Vector();
                         for (int k = 0; k < levels[i - 1].avgs[j].Elements.Count; k++)
                         {
-                            float change1 = 0, change2 = 0;
+                            float change1, change2;
                             change1 = (levels[i - 1].avgs[j].Elements[k].X - left.X) * (levels[i - 1].avgs[j].Elements[k].X - left.X)
                                     + (levels[i - 1].avgs[j].Elements[k].Y - left.Y) * (levels[i - 1].avgs[j].Elements[k].Y - left.Y);
                             change2 = (levels[i - 1].avgs[j].Elements[k].X - right.X) * (levels[i - 1].avgs[j].Elements[k].X - right.X)
@@ -235,7 +235,7 @@ namespace СompressionData.Classes
                             {
                                 for (var g = 0; g < levels[levels.Count - 1].avgs.Count; g++)
                                 {
-                                    if (levels[levels.Count - 1].avgs[(int)g].Elements.Contains(picture[m]))
+                                    if (levels[levels.Count - 1].avgs[g].Elements.Contains(picture[m]))
                                     {
                                         writter.Write(g + " ");
                                     }

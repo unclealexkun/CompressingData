@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "СompressionData", "СompressionData\СompressionData.csproj", "{79AE8E46-A2C1-411A-A43E-74788B22095B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressionSignal", "CompressionSignal\CompressionSignal.csproj", "{342945A2-712A-4599-92ED-2A27DCD7D349}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{79AE8E46-A2C1-411A-A43E-74788B22095B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79AE8E46-A2C1-411A-A43E-74788B22095B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79AE8E46-A2C1-411A-A43E-74788B22095B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{342945A2-712A-4599-92ED-2A27DCD7D349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{342945A2-712A-4599-92ED-2A27DCD7D349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{342945A2-712A-4599-92ED-2A27DCD7D349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{342945A2-712A-4599-92ED-2A27DCD7D349}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

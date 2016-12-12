@@ -17,6 +17,5 @@
         </Grid>
         <Button x:Name="bOpen" Content="Открыть" Margin="0,0,258.4,11.4" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="bOpen_Click"/>
         <Button x:Name="bSave" Content="Сохранить" HorizontalAlignment="Right" Margin="0,0,69.4,11.4" VerticalAlignment="Bottom" Width="75" Click="bSave_Click"/>
-
     </Grid>
 </Window>

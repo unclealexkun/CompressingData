@@ -323,13 +323,7 @@ namespace СompressionData.Classes
                             var same = true;
                             for (var u = 0; u < levels[currentLevel].Avgs.Count; u++)
                             {
-                                if (Pixel.Equals(levels[currentLevel].Avgs[u].X, levels[currentLevel - 1].Avgs[u].X) && Pixel.Equals(levels[currentLevel].Avgs[u].Y, levels[currentLevel - 1].Avgs[u].Y))
-                                {
-                                }
-                                else
-                                {
-                                    same = false;
-                                }
+                                same = (Equals(levels[currentLevel].Avgs[u].X, levels[currentLevel - 1].Avgs[u].X) && Equals(levels[currentLevel].Avgs[u].Y, levels[currentLevel - 1].Avgs[u].Y));
                             }
 
                             if (same)
@@ -419,7 +413,7 @@ namespace СompressionData.Classes
                 for (int x = 0; x < width; x++)
                     for (int y = 0; y < height; y++)
                     {
-                        image.SetPixel(x,y, Color.FromArgb((int)pixels[y, x].R, (int)pixels[y, x].B, (int)pixels[y, x].G));
+                        image.SetPixel(x,y, Color.FromArgb((int)pixels[y, x].R, (int)pixels[y, x].G, (int)pixels[y, x].B));
                     }
 
                 return image;

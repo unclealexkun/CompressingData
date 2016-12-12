@@ -40,7 +40,7 @@ namespace СompressionData.Classes
                 case Method.VectorQuantization:
                     {
                         var comp = new VectorQuantization(data);
-                        comp.Compressing(4);
+                        comp.Compressing(6);
                     }
                     break;
             }

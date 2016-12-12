@@ -2,9 +2,9 @@
 {
     public class Vector
     {
-        public float X;
-        public float Y;
-        public Vector(float x, float y)
+        public Pixel X;
+        public Pixel Y;
+        public Vector(Pixel x, Pixel y)
         {
             X = x;
             Y = y;
@@ -12,8 +12,8 @@
 
         public Vector()
         {
-            X = 0;
-            Y = 0;
+            X = new Pixel();
+            Y = new Pixel();
         }
     }
 }

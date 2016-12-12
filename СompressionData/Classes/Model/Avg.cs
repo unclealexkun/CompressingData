@@ -4,12 +4,12 @@ namespace СompressionData.Classes.Model
 {
     public class Avg
     {
-        public float X;
-        public float Y;
+        public Pixel X;
+        public Pixel Y;
 
         public List<Vector> Elements = new List<Vector>();
 
-        public Avg(float x, float y)
+        public Avg(Pixel x, Pixel y)
         {
             X = x;
             Y = y;
@@ -17,8 +17,8 @@ namespace СompressionData.Classes.Model
 
         public Avg()
         {
-            X = 0;
-            Y = 0;
+            X = new Pixel();
+            Y = new Pixel();
         }
     }
 }

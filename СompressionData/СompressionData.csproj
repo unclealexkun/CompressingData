@@ -15,10 +15,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -67,6 +67,7 @@
     <Compile Include="Classes\Compression.cs" />
     <Compile Include="Classes\Model\Avg.cs" />
     <Compile Include="Classes\Model\Level.cs" />
+    <Compile Include="Classes\Model\Pixel.cs" />
     <Compile Include="Classes\Model\Vector.cs" />
     <Compile Include="Classes\Scanner.cs" />
     <Compile Include="Classes\VectorQuantization.cs" />

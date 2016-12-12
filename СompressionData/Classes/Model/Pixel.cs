@@ -1,6 +1,6 @@
 ﻿namespace СompressionData.Classes.Model
 {
-    public class Pixel
+    public struct Pixel
     {
         public float Alpha;
         public float R;

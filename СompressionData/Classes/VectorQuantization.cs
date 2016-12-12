@@ -313,7 +313,7 @@ namespace СompressionData.Classes
                             var same = true;
                             for (var u = 0; u < levels[currentLevel].Avgs.Count; u++)
                             {
-                                if (levels[currentLevel].Avgs[u].X == levels[currentLevel - 1].Avgs[u].X && levels[currentLevel].Avgs[u].Y == levels[currentLevel - 1].Avgs[u].Y)
+                                if (Pixel.Equals(levels[currentLevel].Avgs[u].X, levels[currentLevel - 1].Avgs[u].X) && Pixel.Equals(levels[currentLevel].Avgs[u].Y, levels[currentLevel - 1].Avgs[u].Y))
                                 {
                                 }
                                 else

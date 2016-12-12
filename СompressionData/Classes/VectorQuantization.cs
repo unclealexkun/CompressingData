@@ -6,6 +6,14 @@ using СompressionData.Classes.Model;
 
 namespace СompressionData.Classes
 {
+    public struct Pixel
+    {
+        public byte Alpha;
+        public byte R;
+        public byte G;
+        public byte B;
+    }
+
     public class VectorQuantization
     {
         private readonly Bitmap _image;
@@ -34,7 +42,7 @@ namespace СompressionData.Classes
             }
             else
             {
-                var pixels = new int[_height, _width];
+                var pixels = new Pixel[_height, _width];
 
                 var picture = new List<Vector>();
                 picture.Add(new Vector());
@@ -56,19 +64,31 @@ namespace СompressionData.Classes
 
                         if (!xDone)
                         {
-                            picture[vectorsCounter].X = r;
+                            picture[vectorsCounter].X = r + g + b + alpha;
+                            picture[vectorsCounter].R = r;
+                            picture[vectorsCounter].G = g;
+                            picture[vectorsCounter].B = b;
+                            picture[vectorsCounter].Alpha = alpha;
                             xDone = true;
                         }
                         else if (!yDone)
                              {
-                                 picture[vectorsCounter].Y = r;
+                                 picture[vectorsCounter].Y = r + g + b + alpha;
+                                 picture[vectorsCounter].R = r;
+                                 picture[vectorsCounter].G = g;
+                                 picture[vectorsCounter].B = b;
+                                 picture[vectorsCounter].Alpha = alpha;
+
                                  xDone = false;
                                  yDone = false;
                                  picture.Add(new Vector());
                                  vectorsCounter++;
                              }
 
-                        pixels[y, x] = r;
+                        pixels[y, x].Alpha = alpha;
+                        pixels[y, x].R = r;
+                        pixels[y, x].G = g;
+                        pixels[y, x].B = b;
                     }
                 }
 
@@ -78,19 +98,27 @@ namespace СompressionData.Classes
                 {
                     sum.X += pic.X;
                     sum.Y += pic.Y;
+                    sum.Alpha += pic.Alpha;
+                    sum.R += pic.R;
+                    sum.G += pic.G;
+                    sum.B += pic.B;
                 }
 
                 var firstAvg = new Vector
                 {
                     X = (float) Math.Round(sum.X/picture.Count),
-                    Y = (float) Math.Round(sum.Y/picture.Count)
+                    Y = (float) Math.Round(sum.Y/picture.Count),
+                    Alpha = (byte) Math.Round((double)sum.Alpha / picture.Count),
+                    R = (byte)Math.Round((double)sum.R / picture.Count),
+                    G = (byte)Math.Round((double)sum.G / picture.Count),
+                    B = (byte)Math.Round((double)sum.B / picture.Count)
                 };
 
                 var levels = new List<Level>
                 {
                     new Level()
                 };
-                levels[0].avgs.Add(new Avg(firstAvg.X, firstAvg.Y));
+                levels[0].avgs.Add(new Avg(firstAvg.X, firstAvg.Y, firstAvg.R, firstAvg.G, firstAvg.B, firstAvg.Alpha));
                 levels[0].avgs[0].Elements = picture;
 
                 for (int i = 1; i < numberBit; i++)
@@ -108,8 +136,16 @@ namespace СompressionData.Classes
 
                         left.X = levels[i - 1].avgs[j].X - 1;
                         left.Y = levels[i - 1].avgs[j].Y - 1;
+                        left.Alpha = (byte)(levels[i - 1].avgs[j].Alpha - 1);
+                        left.R = (byte)(levels[i - 1].avgs[j].R - 1);
+                        left.G = (byte)(levels[i - 1].avgs[j].G - 1);
+                        left.B = (byte)(levels[i - 1].avgs[j].B - 1);
                         right.X = levels[i - 1].avgs[j].X + 1;
                         right.Y = levels[i - 1].avgs[j].Y + 1;
+                        right.Alpha = (byte)(levels[i - 1].avgs[j].Alpha + 1);
+                        right.R = (byte)(levels[i - 1].avgs[j].R + 1);
+                        right.G = (byte)(levels[i - 1].avgs[j].G + 1);
+                        right.B = (byte)(levels[i - 1].avgs[j].B + 1);
 
                         var sum1 = new Vector();
                         var sum2 = new Vector();

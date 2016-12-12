@@ -48,7 +48,6 @@ namespace СompressionData.Classes
                     {
                         var pixel = _image.GetPixel(x, y);
 
-                        var alpha = pixel.A;
                         var r = pixel.R;
                         var g = pixel.G;
                         var b = pixel.B;
@@ -58,7 +57,6 @@ namespace СompressionData.Classes
                             picture[vectorsCounter].X.R = r;
                             picture[vectorsCounter].X.G = g;
                             picture[vectorsCounter].X.B = b;
-                            picture[vectorsCounter].X.Alpha = alpha;
                             xDone = true;
                         }
                         else if (!yDone)
@@ -66,7 +64,6 @@ namespace СompressionData.Classes
                                  picture[vectorsCounter].Y.R = r;
                                  picture[vectorsCounter].Y.G = g;
                                  picture[vectorsCounter].Y.B = b;
-                                 picture[vectorsCounter].Y.Alpha = alpha;
                                  xDone = false;
                                  yDone = false;
                                  picture.Add(new Vector());
@@ -79,28 +76,25 @@ namespace СompressionData.Classes
 
                 foreach (Vector pic in picture)
                 {
-                    sum.X.Alpha += pic.X.Alpha;
                     sum.X.R += pic.X.R;
                     sum.X.G += pic.X.G;
                     sum.X.B += pic.X.B;
-                    sum.Y.Alpha += pic.Y.Alpha;
+
                     sum.Y.R += pic.Y.R;
                     sum.Y.G += pic.Y.G;
-                    sum.Y.B += pic.Y.Alpha;
+                    sum.Y.B += pic.Y.B;
                 }
 
                 var firstAvg = new Vector
                 {
                     X = new Pixel()
                     {
-                        Alpha = (float)Math.Round(sum.X.Alpha / picture.Count),
                         R = (float)Math.Round(sum.X.R / picture.Count),
                         G = (float)Math.Round(sum.X.G / picture.Count),
                         B = (float)Math.Round(sum.X.B / picture.Count)
                     },
                     Y = new Pixel()
                     {
-                        Alpha = (float)Math.Round(sum.Y.Alpha / picture.Count),
                         R = (float)Math.Round(sum.Y.R / picture.Count),
                         G = (float)Math.Round(sum.Y.G / picture.Count),
                         B = (float)Math.Round(sum.Y.B / picture.Count)
@@ -130,16 +124,13 @@ namespace СompressionData.Classes
                         left.X.R = levels[i - 1].Avgs[j].X.R - 1;
                         left.X.G = levels[i - 1].Avgs[j].X.G - 1;
                         left.X.B = levels[i - 1].Avgs[j].X.B - 1;
-                        left.X.Alpha = levels[i - 1].Avgs[j].X.Alpha - 1;
                         left.Y.R = levels[i - 1].Avgs[j].Y.R - 1;
                         left.Y.G = levels[i - 1].Avgs[j].Y.G - 1;
                         left.Y.B = levels[i - 1].Avgs[j].Y.B - 1;
-                        left.Y.Alpha = levels[i - 1].Avgs[j].Y.Alpha - 1;
-                        right.X.Alpha = levels[i - 1].Avgs[j].X.Alpha + 1;
+
                         right.X.R = levels[i - 1].Avgs[j].X.R + 1;
                         right.X.G = levels[i - 1].Avgs[j].X.G + 1;
                         right.X.B = levels[i - 1].Avgs[j].X.B + 1;
-                        right.Y.Alpha = levels[i - 1].Avgs[j].Y.Alpha + 1;
                         right.Y.R = levels[i - 1].Avgs[j].Y.R + 1;
                         right.Y.G = levels[i - 1].Avgs[j].Y.G + 1;
                         right.Y.B = levels[i - 1].Avgs[j].Y.B + 1;
@@ -148,13 +139,20 @@ namespace СompressionData.Classes
                         var sum2 = new Vector();
                         for (int k = 0; k < levels[i - 1].Avgs[j].Elements.Count; k++)
                         {
-                            float change1, change2;
-                            change1 = (levels[i - 1].Avgs[j].Elements[k].X.R - left.X.R) * (levels[i - 1].Avgs[j].Elements[k].X.R - left.X.R)
-                                    + (levels[i - 1].Avgs[j].Elements[k].Y.R - left.Y.R) * (levels[i - 1].Avgs[j].Elements[k].Y.R - left.Y.R);
-                            change2 = (levels[i - 1].Avgs[j].Elements[k].X.R - right.X.R) * (levels[i - 1].Avgs[j].Elements[k].X.R - right.X.R)
-                                    + (levels[i - 1].Avgs[j].Elements[k].Y.R - right.Y.R) * (levels[i - 1].Avgs[j].Elements[k].Y.R - right.Y.R);
+                            float changeR1 = (levels[i - 1].Avgs[j].Elements[k].X.R - left.X.R) * (levels[i - 1].Avgs[j].Elements[k].X.R - left.X.R)
+                                             + (levels[i - 1].Avgs[j].Elements[k].Y.R - left.Y.R) * (levels[i - 1].Avgs[j].Elements[k].Y.R - left.Y.R);
+                            float changeR2 = (levels[i - 1].Avgs[j].Elements[k].X.R - right.X.R) * (levels[i - 1].Avgs[j].Elements[k].X.R - right.X.R)
+                                             + (levels[i - 1].Avgs[j].Elements[k].Y.R - right.Y.R) * (levels[i - 1].Avgs[j].Elements[k].Y.R - right.Y.R);
+                            float changeG1 = (levels[i - 1].Avgs[j].Elements[k].X.G - left.X.G) * (levels[i - 1].Avgs[j].Elements[k].X.G - left.X.G)
+                                             + (levels[i - 1].Avgs[j].Elements[k].Y.G - left.Y.G) * (levels[i - 1].Avgs[j].Elements[k].Y.G - left.Y.G);
+                            float changeG2 = (levels[i - 1].Avgs[j].Elements[k].X.G - right.X.G) * (levels[i - 1].Avgs[j].Elements[k].X.G - right.X.G)
+                                             + (levels[i - 1].Avgs[j].Elements[k].Y.G - right.Y.G) * (levels[i - 1].Avgs[j].Elements[k].Y.G - right.Y.G);
+                            float changeB1 = (levels[i - 1].Avgs[j].Elements[k].X.B - left.X.B) * (levels[i - 1].Avgs[j].Elements[k].X.B - left.X.B)
+                                             + (levels[i - 1].Avgs[j].Elements[k].Y.B - left.Y.B) * (levels[i - 1].Avgs[j].Elements[k].Y.B - left.Y.B);
+                            float changeB2 = (levels[i - 1].Avgs[j].Elements[k].X.B - right.X.B) * (levels[i - 1].Avgs[j].Elements[k].X.B - right.X.B)
+                                             + (levels[i - 1].Avgs[j].Elements[k].Y.B - right.Y.B) * (levels[i - 1].Avgs[j].Elements[k].Y.B - right.Y.B);
 
-                            if (change1 >= change2)
+                            if ((changeR1 >= changeR2)||(changeG1 >= changeG2)||(changeB1 >= changeB2))
                             {
                                 rightElements.Add(levels[i - 1].Avgs[j].Elements[k]);
                             }
@@ -163,11 +161,10 @@ namespace СompressionData.Classes
 
                         for (int z = 0; z < leftElements.Count; z++)
                         {
-                            sum1.X.Alpha += leftElements[z].X.Alpha;
                             sum1.X.R += leftElements[z].X.R;
                             sum1.X.G += leftElements[z].X.G;
                             sum1.X.B += leftElements[z].X.B;
-                            sum1.Y.Alpha += leftElements[z].Y.Alpha;
+
                             sum1.Y.R += leftElements[z].Y.R;
                             sum1.Y.G += leftElements[z].Y.G;
                             sum1.Y.B += leftElements[z].Y.B;
@@ -175,11 +172,10 @@ namespace СompressionData.Classes
 
                         for (int z = 0; z < rightElements.Count; z++)
                         {
-                            sum2.X.Alpha += rightElements[z].X.Alpha;
                             sum2.X.R += rightElements[z].X.R;
                             sum2.X.G += rightElements[z].X.G;
                             sum2.X.B += rightElements[z].X.B;
-                            sum2.Y.Alpha += rightElements[z].Y.Alpha;
+
                             sum2.Y.R += rightElements[z].Y.R;
                             sum2.Y.G += rightElements[z].Y.G;
                             sum2.Y.B += rightElements[z].Y.B;
@@ -189,14 +185,12 @@ namespace СompressionData.Classes
                         {
                             X = new Pixel()
                             {
-                                Alpha = (float)Math.Round(sum1.X.Alpha / leftElements.Count),
                                 R = (float)Math.Round(sum1.X.R / leftElements.Count),
                                 G = (float)Math.Round(sum1.X.G / leftElements.Count),
                                 B = (float)Math.Round(sum1.X.B / leftElements.Count)
                             },
                             Y = new Pixel()
                             {
-                                Alpha = (float)Math.Round(sum1.Y.Alpha / leftElements.Count),
                                 R = (float)Math.Round(sum1.Y.R / leftElements.Count),
                                 G = (float)Math.Round(sum1.Y.G / leftElements.Count),
                                 B = (float)Math.Round(sum1.Y.B / leftElements.Count)
@@ -211,14 +205,12 @@ namespace СompressionData.Classes
                         {
                             X = new Pixel()
                             {
-                                Alpha = (float)Math.Round(sum2.X.Alpha / rightElements.Count),
                                 R = (float)Math.Round(sum2.X.R / rightElements.Count),
                                 G = (float)Math.Round(sum2.X.G / rightElements.Count),
                                 B = (float)Math.Round(sum2.X.B / rightElements.Count)
                             },
                             Y = new Pixel()
                             {
-                                Alpha = (float)Math.Round(sum2.Y.Alpha / rightElements.Count),
                                 R = (float)Math.Round(sum2.Y.R / rightElements.Count),
                                 G = (float)Math.Round(sum2.Y.G / rightElements.Count),
                                 B = (float)Math.Round(sum2.Y.B / rightElements.Count)
@@ -246,11 +238,10 @@ namespace СompressionData.Classes
                                 var summ = new Avg();
                                 for (int b = 0; b < levels[currentLevel - 1].Avgs[l].Elements.Count; b++)
                                 {
-                                    summ.X.Alpha += levels[currentLevel - 1].Avgs[l].Elements[b].X.Alpha;
                                     summ.X.R += levels[currentLevel - 1].Avgs[l].Elements[b].X.R;
                                     summ.X.G += levels[currentLevel - 1].Avgs[l].Elements[b].X.G;
                                     summ.X.B += levels[currentLevel - 1].Avgs[l].Elements[b].X.B;
-                                    summ.Y.Alpha += levels[currentLevel - 1].Avgs[l].Elements[b].Y.Alpha;
+
                                     summ.Y.R += levels[currentLevel - 1].Avgs[l].Elements[b].Y.R;
                                     summ.Y.G += levels[currentLevel - 1].Avgs[l].Elements[b].Y.G;
                                     summ.Y.B += levels[currentLevel - 1].Avgs[l].Elements[b].Y.B;
@@ -260,18 +251,12 @@ namespace СompressionData.Classes
                                 {
                                     X = new Pixel()
                                     {
-                                        Alpha =
-                                            (float)
-                                                Math.Round(summ.X.Alpha/levels[currentLevel - 1].Avgs[l].Elements.Count),
                                         R = (float) Math.Round(summ.X.R/levels[currentLevel - 1].Avgs[l].Elements.Count),
                                         G = (float) Math.Round(summ.X.G/levels[currentLevel - 1].Avgs[l].Elements.Count),
                                         B = (float) Math.Round(summ.X.B/levels[currentLevel - 1].Avgs[l].Elements.Count)
                                     },
                                     Y = new Pixel()
                                     {
-                                        Alpha =
-                                            (float)
-                                                Math.Round(summ.Y.Alpha/levels[currentLevel - 1].Avgs[l].Elements.Count),
                                         R = (float) Math.Round(summ.Y.R/levels[currentLevel - 1].Avgs[l].Elements.Count),
                                         G = (float) Math.Round(summ.Y.G/levels[currentLevel - 1].Avgs[l].Elements.Count),
                                         B = (float) Math.Round(summ.Y.B/levels[currentLevel - 1].Avgs[l].Elements.Count)
@@ -282,7 +267,9 @@ namespace СompressionData.Classes
                             }
 
                             // Получение векторов
-                            float changee = 0;
+                            float changeeR = 0;
+                            float changeeG = 0;
+                            float changeeB = 0;
                             var bestError = 0;
                             for (var b = 0; b < picture.Count; b++)
                             {
@@ -290,18 +277,41 @@ namespace СompressionData.Classes
                                 {
                                     if (l == 0)
                                     {
-                                        changee = (picture[b].X.R - levels[currentLevel].Avgs[l].X.R) * (picture[b].X.R - levels[currentLevel].Avgs[l].X.R)
+                                        changeeR = (picture[b].X.R - levels[currentLevel].Avgs[l].X.R) * (picture[b].X.R - levels[currentLevel].Avgs[l].X.R)
                                                 + (picture[b].Y.R - levels[currentLevel].Avgs[l].Y.R) * (picture[b].Y.R - levels[currentLevel].Avgs[l].Y.R);
+                                        changeeG = (picture[b].X.G - levels[currentLevel].Avgs[l].X.G) * (picture[b].X.G - levels[currentLevel].Avgs[l].X.G)
+                                                + (picture[b].Y.G - levels[currentLevel].Avgs[l].Y.G) * (picture[b].Y.G - levels[currentLevel].Avgs[l].Y.G);
+                                        changeeB = (picture[b].X.B - levels[currentLevel].Avgs[l].X.B) * (picture[b].X.B - levels[currentLevel].Avgs[l].X.B)
+                                                + (picture[b].Y.B - levels[currentLevel].Avgs[l].Y.B) * (picture[b].Y.B - levels[currentLevel].Avgs[l].Y.B);
                                         bestError = 0;
                                     }
                                     else
                                     {
-                                        if (changee > ((picture[b].X.R - levels[currentLevel].Avgs[l].X.R) * (picture[b].X.R - levels[currentLevel].Avgs[l].X.R)
-                                                      + (picture[b].Y.R - levels[currentLevel].Avgs[l].Y.R) * (picture[b].Y.R - levels[currentLevel].Avgs[l].Y.R)))
+                                        float tempR = ((picture[b].X.R - levels[currentLevel].Avgs[l].X.R) * (picture[b].X.R - levels[currentLevel].Avgs[l].X.R)
+                                                      + (picture[b].Y.R - levels[currentLevel].Avgs[l].Y.R) * (picture[b].Y.R - levels[currentLevel].Avgs[l].Y.R));
+                                        float tempG = ((picture[b].X.G - levels[currentLevel].Avgs[l].X.G) * (picture[b].X.G - levels[currentLevel].Avgs[l].X.G)
+                                                      + (picture[b].Y.G - levels[currentLevel].Avgs[l].Y.G) * (picture[b].Y.G - levels[currentLevel].Avgs[l].Y.G));
+                                        float tempB = ((picture[b].X.B - levels[currentLevel].Avgs[l].X.B) * (picture[b].X.B - levels[currentLevel].Avgs[l].X.B)
+                                                      + (picture[b].Y.B - levels[currentLevel].Avgs[l].Y.B) * (picture[b].Y.B - levels[currentLevel].Avgs[l].Y.B));
+                                        if (changeeR > tempR)
                                         {
 
-                                            changee = ((picture[b].X.R - levels[currentLevel].Avgs[l].X.R) * (picture[b].X.R - levels[currentLevel].Avgs[l].X.R)
+                                            changeeR = ((picture[b].X.R - levels[currentLevel].Avgs[l].X.R) * (picture[b].X.R - levels[currentLevel].Avgs[l].X.R)
                                                       + (picture[b].Y.R - levels[currentLevel].Avgs[l].Y.R) * (picture[b].Y.R - levels[currentLevel].Avgs[l].Y.R));
+                                            bestError = l;
+                                        }
+                                        if (changeeG > tempG)
+                                        {
+
+                                            changeeG = ((picture[b].X.G - levels[currentLevel].Avgs[l].X.G) * (picture[b].X.G - levels[currentLevel].Avgs[l].X.G)
+                                                      + (picture[b].Y.G - levels[currentLevel].Avgs[l].Y.G) * (picture[b].Y.G - levels[currentLevel].Avgs[l].Y.G));
+                                            bestError = l;
+                                        }
+                                        if (changeeB > tempB)
+                                        {
+
+                                            changeeB = ((picture[b].X.B - levels[currentLevel].Avgs[l].X.B) * (picture[b].X.B - levels[currentLevel].Avgs[l].X.B)
+                                                      + (picture[b].Y.B - levels[currentLevel].Avgs[l].Y.B) * (picture[b].Y.B - levels[currentLevel].Avgs[l].Y.B));
                                             bestError = l;
                                         }
                                     }
@@ -313,13 +323,7 @@ namespace СompressionData.Classes
                             var same = true;
                             for (var u = 0; u < levels[currentLevel].Avgs.Count; u++)
                             {
-                                if (levels[currentLevel].Avgs[u].X == levels[currentLevel - 1].Avgs[u].X && levels[currentLevel].Avgs[u].Y == levels[currentLevel - 1].Avgs[u].Y)
-                                {
-                                }
-                                else
-                                {
-                                    same = false;
-                                }
+                                same = (Equals(levels[currentLevel].Avgs[u].X, levels[currentLevel - 1].Avgs[u].X) && Equals(levels[currentLevel].Avgs[u].Y, levels[currentLevel - 1].Avgs[u].Y));
                             }
 
                             if (same)
@@ -333,8 +337,8 @@ namespace СompressionData.Classes
                             writter.WriteLine(_width + " " + _height);
                             for (int g = 0; g < levels[levels.Count - 1].Avgs.Count; g++)
                             {
-                                writter.WriteLine((int)levels[levels.Count - 1].Avgs[g].X.Alpha + " "+ (int)levels[levels.Count - 1].Avgs[g].X.R + " " + (int)levels[levels.Count - 1].Avgs[g].X.G + " " + (int)levels[levels.Count - 1].Avgs[g].X.B + 
-                                    ";" + (int)levels[levels.Count - 1].Avgs[g].Y.Alpha + " " + (int)levels[levels.Count - 1].Avgs[g].Y.R + " " + (int)levels[levels.Count - 1].Avgs[g].Y.G + " " + (int)levels[levels.Count - 1].Avgs[g].Y.B);
+                                writter.WriteLine((int)levels[levels.Count - 1].Avgs[g].X.R + " " + (int)levels[levels.Count - 1].Avgs[g].X.G + " " + (int)levels[levels.Count - 1].Avgs[g].X.B + 
+                                    ";" + (int)levels[levels.Count - 1].Avgs[g].Y.R + " " + (int)levels[levels.Count - 1].Avgs[g].Y.G + " " + (int)levels[levels.Count - 1].Avgs[g].Y.B);
                             }
                         }
 
@@ -348,7 +352,6 @@ namespace СompressionData.Classes
                                     {
                                         writter.Write(g + " ");
                                     }
-
                                 }
                             }
                         }
@@ -392,17 +395,15 @@ namespace СompressionData.Classes
                         var pixelY = vectorCode[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         pixels[y, x] = new Pixel()
                         {
-                            Alpha = float.Parse(pixelX[0]),
-                            R = float.Parse(pixelX[1]),
-                            G = float.Parse(pixelX[2]),
-                            B = float.Parse(pixelX[3])
+                            R = float.Parse(pixelX[0]),
+                            G = float.Parse(pixelX[1]),
+                            B = float.Parse(pixelX[2])
                         };
                         pixels[y + 1,x] = new Pixel()
                         {
-                            Alpha = float.Parse(pixelY[0]),
-                            R = float.Parse(pixelY[1]),
-                            G = float.Parse(pixelY[2]),
-                            B = float.Parse(pixelY[3])
+                            R = float.Parse(pixelY[0]),
+                            G = float.Parse(pixelY[1]),
+                            B = float.Parse(pixelY[2])
                         };
                     }
                 }
@@ -412,7 +413,7 @@ namespace СompressionData.Classes
                 for (int x = 0; x < width; x++)
                     for (int y = 0; y < height; y++)
                     {
-                        image.SetPixel(x,y, Color.FromArgb((int)pixels[y, x].Alpha, (int)pixels[y, x].R, (int)pixels[y, x].B, (int)pixels[y, x].G));
+                        image.SetPixel(x,y, Color.FromArgb((int)pixels[y, x].R, (int)pixels[y, x].G, (int)pixels[y, x].B));
                     }
 
                 return image;

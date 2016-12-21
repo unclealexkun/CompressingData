@@ -2,10 +2,11 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Windows;
+using System.Linq;
 using System.Windows.Media.Imaging;
 using СompressionData.Classes;
 using СompressionData.Enumes;
+using Wpf = System.Windows;
 using Form = System.Windows.Forms;
 
 namespace СompressionData
@@ -13,7 +14,7 @@ namespace СompressionData
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Wpf.Window
     {
         private string _path;
         private string _directory;
@@ -21,19 +22,21 @@ namespace СompressionData
         {
             _path = String.Empty;
             _directory = String.Empty;
+            cbChooseMethod.ItemsSource = Enum.GetValues(typeof(Method));
+            cbChooseMethod.SelectedIndex = 0;
             InitializeComponent();
         }
 
-        private void bCompression_Click(object sender, RoutedEventArgs e)
+        private void bCompression_Click(object sender, Wpf.RoutedEventArgs e)
         {
             var compressor = new Compression();
             var bitmap = new Bitmap(_path);
 
-            compressor.Compressing(bitmap, Method.VectorQuantization);
-            imageCompress.Source = BitmapToImageSource(compressor.GetImage(Method.VectorQuantization));
+            compressor.Encoding(bitmap, Method.VectorQuantization);
+            imageCompress.Source = BitmapToImageSource(compressor.Decoding(Method.VectorQuantization));
         }
 
-        private void bOpen_Click(object sender, RoutedEventArgs e)
+        private void bOpen_Click(object sender, Wpf.RoutedEventArgs e)
         {
             var dialog = new Form.OpenFileDialog
             {
@@ -50,7 +53,7 @@ namespace СompressionData
             }
         }
 
-        private void bSave_Click(object sender, RoutedEventArgs e)
+        private void bSave_Click(object sender, Wpf.RoutedEventArgs e)
         {
             var saveFileDialog = new Form.SaveFileDialog
             {

@@ -2,6 +2,7 @@
 {
     public enum Method
     {
-        VectorQuantization
+        VectorQuantization,
+        DeltaEncoding
     }
 }

@@ -26,7 +26,7 @@ namespace СompressionData.Classes
             }                 
         }
 
-        public void Compressing(int numberBit)
+        public void Encoding(int numberBit)
         {
             if (_image == null)
             {

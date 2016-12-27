@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CompressionSignal.Properties
+namespace CompressingSignal.Properties
 {
 
 

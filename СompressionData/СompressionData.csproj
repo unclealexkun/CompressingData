@@ -73,6 +73,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\Compression.cs" />
+    <Compile Include="Classes\DCT.cs" />
     <Compile Include="Classes\Model\Avg.cs" />
     <Compile Include="Classes\Model\Level.cs" />
     <Compile Include="Classes\Model\Pixel.cs" />

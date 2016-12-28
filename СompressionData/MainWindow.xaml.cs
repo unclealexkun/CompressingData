@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -18,12 +19,11 @@ namespace СompressionData
     {
         private string _path;
         private string _directory;
+
         public MainWindow()
         {
             _path = String.Empty;
             _directory = String.Empty;
-            cbChooseMethod.ItemsSource = Enum.GetValues(typeof(Method));
-            cbChooseMethod.SelectedIndex = 0;
             InitializeComponent();
         }
 
@@ -32,8 +32,16 @@ namespace СompressionData
             var compressor = new Compression();
             var bitmap = new Bitmap(_path);
 
-            compressor.Encoding(bitmap, Method.VectorQuantization);
-            imageCompress.Source = BitmapToImageSource(compressor.Decoding(Method.VectorQuantization));
+            if (cbChooseMethod.SelectedIndex == 0)
+            {
+                compressor.Encoding(bitmap, Method.VectorQuantization);
+                imageCompress.Source = BitmapToImageSource(compressor.Decoding(Method.VectorQuantization));
+            }
+            else
+            {
+                compressor.Encoding(bitmap, Method.DiscreteCosineTransform);
+                imageCompress.Source = BitmapToImageSource(compressor.Decoding(Method.DiscreteCosineTransform));
+            }
         }
 
         private void bOpen_Click(object sender, Wpf.RoutedEventArgs e)

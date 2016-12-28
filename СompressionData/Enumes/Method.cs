@@ -3,6 +3,6 @@
     public enum Method
     {
         VectorQuantization,
-        DeltaEncoding
+        DiscreteCosineTransform
     }
 }
